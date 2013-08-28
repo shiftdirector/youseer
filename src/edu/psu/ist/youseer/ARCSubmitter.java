@@ -46,7 +46,6 @@ import org.archive.io.arc.*;
 import java.util.Iterator;
 import java.text.Format;
 
-import org.apache.tika.*;
 import org.apache.tika.parser.*;
 import org.xml.sax.ContentHandler;
 import org.apache.tika.sax.*;
@@ -63,12 +62,12 @@ import java.util.Vector;
 /**
  * <p>Title: ARCSubmitter</p>
  *
- * <p>Description: Read the configuration file, initilize the database, and create the tables if they don't exist
+ * <p>Description: Read the configuration file, initialize the database, and create the tables if they don't exist
  * The default database is SQLite, but if you prefer to use a server side database, feel free to modify the configuration file
  * and provide the connection string for the database.
  * This class creates a thread pool of Worker runnables to handle the ARC records retrieved from the ARC file.
  * The order of tasks as follows: 1) parse the input parameters, 2) parse the configuration files and build a configuration object, 3)
- * Establisht the database connection, 4) iterate through the input folder and process all the (new) ARC fiels in it (Depth First). 5) for each ARC record
+ * Establish the database connection, 4) iterate through the input folder and process all the (new) ARC fields in it (Depth First). 5) for each ARC record
  *  in the ARC file, this class creates a SubmitterDocument object and submit the object to the thread pool for processing.
  * After processing the entire ARC file, the log is inserted to the database and the thread waits for the thread pool to
  * finish executing before reading the next ARC file.
