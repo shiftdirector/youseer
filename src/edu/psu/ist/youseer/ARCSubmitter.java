@@ -1,62 +1,20 @@
 package edu.psu.ist.youseer;
 
-import java.io.IOException;
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
 import java.io.*;
-import org.apache.solr.analysis.HTMLStripReader;
-import java.util.regex.*;
-
+import java.sql.*;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.concurrent.*;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.apache.commons.lang.*;
-import net.htmlparser.jericho.*;
-
-
-import org.archive.io.*;
 import org.archive.io.arc.*;
-import org.archive.io.arc.*;
-import java.util.Iterator;
-import java.text.Format;
-
-import org.apache.tika.parser.*;
-import org.xml.sax.ContentHandler;
-import org.apache.tika.sax.*;
-
-import java.sql.*;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.*;
-
-import java.util.Vector;
 
 
 /**
