@@ -13,14 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <repositories>
-        <repository>
-            <id>heritrix</id>
-            <name>my heritrix repo</name>
-            <url>file://${project.basedir}/heritrix-repo</url>
-        </repository>
-    </repositories>
-
+    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -58,12 +51,14 @@
             <groupId>org.apache.tika</groupId>
             <artifactId>tika</artifactId>
             <version>0.3</version>
-        </dependency>
-    
+        </dependency>      
+        
         <dependency>
             <groupId>heritrix</groupId>
             <artifactId>heritrix</artifactId>
             <version>1.14.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/heritrix-repo/heritrix-1.14.3.jar</systemPath>
         </dependency>
         
         <dependency>
