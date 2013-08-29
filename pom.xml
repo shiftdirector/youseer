@@ -14,6 +14,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
+    <repositories>
+        <repository>
+            <id>heritrix</id>
+            <name>my heritrix repo</name>
+            <url>file://${project.basedir}/heritrix-repo</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -57,8 +65,6 @@
             <groupId>heritrix</groupId>
             <artifactId>heritrix</artifactId>
             <version>1.14.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/heritrix-repo/heritrix-1.14.3.jar</systemPath>
         </dependency>
         
         <dependency>
@@ -71,7 +77,30 @@
     </dependencies>
     
     <build>
-        <plugins>
+        <plugins>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>                    
+                    <execution>
+                        <id>hack-binary</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${project.basedir}/heritrix-repo/heritrix-1.14.3.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>heritrix</groupId>
+                            <artifactId>heritrix</artifactId>
+                            <version>1.14.3</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
@@ -85,7 +114,7 @@
                         </manifest>
                     </archive>
                 </configuration>
-                <executions>
+                <executions>                    
                     <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
