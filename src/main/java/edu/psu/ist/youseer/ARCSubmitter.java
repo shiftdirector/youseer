@@ -14,7 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -170,8 +173,7 @@ public class ARCSubmitter {
                         submitter.threadExecutor.shutdown();
                         submitter.threadExecutor.awaitTermination(60 * 60,
                                 java.util.concurrent.TimeUnit.SECONDS); // Wait for thread pool to shut down
-                        String result = submitter.sendPostCommand("<commit/>",
-                                submitter.URL.toString());
+                        String result = submitter.sendPostCommand("<commit/>", submitter.URL);
                         System.err.println("Commenting result is: " + result);
                         System.out.println("Commenting result is: " + result);
                         Format formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -393,7 +395,7 @@ public class ARCSubmitter {
                                     (int) meta.getLength());
                             if (buffer == null) {
                                 //log error to DB
-                                System.err.println("ARC record fot the URL " + entryURL + "Couldn't be read. An exception was encountered");
+                                System.err.println("ARC record for the URL " + entryURL + "Couldn't be read. An exception was encountered");
                                 continue;
                             }
                             doc = new SubmitterDocument(entryURL, buffer,
@@ -414,8 +416,7 @@ public class ARCSubmitter {
                         Thread.currentThread().sleep(1000); // Wait for the thread pool to finish executing
 
                     }
-                    String result = this.sendPostCommand("<commit/>",
-                            this.URL.toString()); // Commit the submitted document to the index, in case the program crashed
+                    String result = this.sendPostCommand("<commit/>", this.URL); // Commit the submitted document to the index, in case the program crashed
                     this.FlushIndexedDocs(); // Insert the submitted URLs to the database
 
                 } catch (Exception ex) {
@@ -538,11 +539,19 @@ public class ARCSubmitter {
      * @return String The result of the submit
      * @throws Exception
      */
-    public String sendPostCommand(String command, String url) throws
+    public String sendPostCommand(String command, URL url) throws
             Exception {
         String results = null;
         HttpClient client = new HttpClient();
-        PostMethod post = new PostMethod(url);
+        if (url.getUserInfo() != null){
+            String username = url.getUserInfo().split(":")[0];
+            String password = url.getUserInfo().split(":")[1];
+            UsernamePasswordCredentials creds = new UsernamePasswordCredentials(username, password);
+            HttpState state = new HttpState();
+            state.setCredentials(AuthScope.ANY, creds);
+            client.setState(state);
+        }
+        PostMethod post = new PostMethod(url.toString());
 
         RequestEntity re = new StringRequestEntity(command, "text/xml", "UTF-8");
         post.setRequestEntity(re);
